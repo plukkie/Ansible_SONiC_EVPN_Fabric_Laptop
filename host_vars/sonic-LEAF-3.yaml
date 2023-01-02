@@ -2,9 +2,13 @@
 
 
 
+
 lacp_pcs:
+  - 10
   
 mclag_member_pcs:
+  - lag: PortChannel10
+  
   
 sonic_bgp:
   - bestpath:
@@ -78,9 +82,17 @@ sonic_interfaces:
     enabled: True
     name: Eth1/7
     mtu: 9216
+  - description: 'Host0 link'
+    enabled: True
+    name: Eth1/4
+    mtu: 9216
   - description: 'VLTi Portchannel'
     enabled: True
     name: PortChannel100
+    mtu: 9216
+  - description: 'Lag to Host'
+    enabled: True
+    name: PortChannel10
     mtu: 9216
   - description: 'Interlink'
     enabled: True
@@ -101,6 +113,10 @@ sonic_l2_interfaces:
       allowed_vlans:
         - vlan: 60
         - vlan: 999
+  - name: PortChannel10
+    trunk:
+      allowed_vlans:
+        - vlan: 60
 
 sonic_l3_interfaces:
   - ipv6:
@@ -124,7 +140,11 @@ sonic_lag_interfaces:
         - member: Eth1/3
         - member: Eth1/7
     name: PortChannel 100
-  
+  - members:
+      interfaces:
+        - member: Eth1/4
+    name: PortChannel10
+
 sonic_system:
   anycast_address:
     ipv4: true
