@@ -1,0 +1,72 @@
+vtep: '{{ host_data[inventory_hostname].vtep_name }}'
+
+vlandata:
+  501:
+    desc: "fabric wide vlan501"
+    net: 10.10.1.0
+    agw: 254
+    mask: 24
+    interfaces: [ Portchannel 10, Portchannel 100 ] 
+    hosts: [ sonic-LEAF-1, sonic-LEAF-2, sonic-LEAF-3, sonic-LEAF-4 ]
+    vrf: Vrf1
+    int_vlan_options: [ neigh-suppress ]
+
+  502:
+    desc: "fabric wide vlan502"
+    net: 10.10.2.0
+    agw: 254
+    mask: 24
+    interfaces: [ Portchannel 10, Portchannel 100 ] 
+    hosts: [ sonic-LEAF-1, sonic-LEAF-2, sonic-LEAF-3, sonic-LEAF-4 ]
+    vrf: Vrf1
+    int_vlan_options: [ neigh-suppress ]
+  
+  503:
+    desc: "fabric wide vlan503"
+    net: 10.10.3.0
+    agw: 254
+    mask: 24
+    interfaces: [ Portchannel 10, Portchannel 100 ] 
+    hosts: [ sonic-LEAF-1, sonic-LEAF-2, sonic-LEAF-3, sonic-LEAF-4 ]
+    vrf: Vrf1
+    int_vlan_options: [ neigh-suppress ]
+
+  504:
+    desc: "fabric wide vlan504"
+    net: 172.17.4.0
+    agw: 254
+    mask: 24
+    interfaces: [ Portchannel 10, Portchannel 100 ] 
+    hosts: [ sonic-LEAF-1, sonic-LEAF-2, sonic-LEAF-3, sonic-LEAF-4 ]
+    vrf: Vrf504
+    int_vlan_options: [ neigh-suppress ]
+
+  512:
+    desc: "pair12-vlan512"
+    net: 10.10.12.0
+    agw: 254
+    mask: 24
+    interfaces: [ Portchannel 10, Portchannel 100 ] 
+    hosts: [ sonic-LEAF-1, sonic-LEAF-2 ]
+    vrf: Vrf1
+    int_vlan_options: [ neigh-suppress ]
+  
+  534:
+    desc: "pair34-vlan534"
+    net: 10.10.34.0
+    agw: 254
+    mask: 24
+    interfaces: [ Portchannel 10, Portchannel 100 ] 
+    hosts: [ sonic-LEAF-3, sonic-LEAF-4 ]
+    vrf: Vrf1
+    int_vlan_options: [ neigh-suppress ]
+  
+  1501:
+    desc: "pair34-vlan534"
+    net: 10.10.150.0
+    agw: 254
+    mask: 24
+    interfaces: [ Portchannel 10, Portchannel 100 ] 
+    hosts: [ sonic-LEAF-3, sonic-LEAF-4 ]
+    vrf: Vrf1
+    int_vlan_options: [ neigh-suppress ]

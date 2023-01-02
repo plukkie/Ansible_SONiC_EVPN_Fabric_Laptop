@@ -1,0 +1,5 @@
+---
+collections:
+  - name: dellemc.enterprise_sonic
+    version: 1.1.0
+ 

@@ -1,0 +1,52 @@
+---
+- hosts: leaf
+  connection: httpapi
+  gather_facts: false
+  collections:
+    - dellemc.enterprise_sonic
+
+
+  vars:
+    leafcount: 4
+
+  tasks: 
+
+    - name: Read group_vars/all.yml, count total leafs...
+      set_fact:
+        groupalldata: "{{lookup('file', 'group_vars/all.yaml') }}"
+      
+      vars:
+        leafcount: "{{ groupalldata | regex_findall('vtep_name') | length }}"
+
+
+    - name: Request vxlan tunnel status...
+      vars:
+        ansible_connection: network_cli
+      any_errors_fatal: true
+      sonic_command:
+        commands:
+          - show vxlan tunnel 
+
+      register: vxlan_log
+      
+    - name: Print log results vxlan tunnels
+      debug:
+        var: vxlan_log
+
+    - name: Valid operational state
+      vars:
+        tunnelcount: "{{ vxlan_log.stdout_lines[0] | regex_findall('oper_up') | length }}"
+
+      debug:
+        msg: "Vtep tunnels are 'oper_up' and in sync with all leafs ({{leafcount}}"
+      when: (leafcount-1|int == tunnelcount|int)
+      #failed_when: (leafcount-1|int != tunnelcount|int)
+
+    - name: Invalid operational state
+      vars:
+        tunnelcount: "{{ vxlan_log.stdout_lines[0] | regex_findall('oper_up') | length }}"
+
+      fail:
+        msg: "FAIL: Not all Vtep tunnels ({{ tunnelcount }}) detected. Config fault or switch down?"
+      when: (leafcount-1|int != tunnelcount|int)
+
