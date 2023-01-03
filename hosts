@@ -6,7 +6,6 @@ sonic-LEAF-4 ansible_host=10.10.10.14
 
 [spine]
 sonic-SPINE-1
-sonic-SPINE-2
 
 [leaf]
 sonic-LEAF-1
