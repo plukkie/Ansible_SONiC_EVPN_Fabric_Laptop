@@ -22,7 +22,7 @@ NEWHASH=`${HASHALG} ${LOCALCONFIGFILE} | awk '{print $1'}`
 if [ "${NEWHASH}" != "${OLDHASH}" ]
    then
       echo "Config has changed, need to upload new config to server."
-      if curl -T ${LOCALCONFIGFILE} tftp://${TFTPSERVER}${UPLOADPATH}${SAVEDCONFIGFILE}
+      if curl -k --interface eth0 -T ${LOCALCONFIGFILE} tftp://${TFTPSERVER}${UPLOADPATH}${SAVEDCONFIGFILE}
 	 then 
             echo ${NEWHASH} > ${STOREDHASHFILE}
 	    echo "Succesfull upload"

@@ -45,6 +45,18 @@ done
 
 sleep 2
 
+# get save_config.sh addon script and add to crontab
+/usr/bin/curl -s ${APP}${ZTD_SERVER_IP}${ADDON_SCRIPTS_PATH}${SAVE_CONFIG_FILE} -o ${ADMIN_HOME}${SAVE_CONFIG_FILE}
+sleep 2
+chmod a+x ${ADMIN_HOME}${SAVE_CONFIG_FILE}
+
+# Check if save_config script present in crontab
+if [[ ! -f "${CRONROOT}" ]]; then touch ${CRONROOT}; fi
+
+if ! grep -q "${CRONLINE}" "${CRONROOT}"; then
+   echo "* * * * * sudo $CRONLINE" >> ${CRONROOT}
+fi
+
 # Save config permanent
 #config save -y
 
