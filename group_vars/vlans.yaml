@@ -7,7 +7,7 @@ vlandata:
     agw: 254
     mask: 24
     interfaces: [ Portchannel 10, Portchannel 100 ] 
-    hosts: [ sonic-LEAF-1, sonic-LEAF-2 ]
+    hosts: [ sonic-LEAF-1, sonic-LEAF-2, sonic-LEAF-3, sonic-LEAF-4 ]
     vrf: Vrf1
     int_vlan_options: [ neigh-suppress ]
 
@@ -17,7 +17,7 @@ vlandata:
     agw: 254
     mask: 24
     interfaces: [ Portchannel 10, Portchannel 100 ] 
-    hosts: [ sonic-LEAF-1, sonic-LEAF-2 ]
+    hosts: [ sonic-LEAF-1, sonic-LEAF-2, sonic-LEAF-3, sonic-LEAF-4 ]
     vrf: Vrf1
     int_vlan_options: [ neigh-suppress ]
   
@@ -27,7 +27,7 @@ vlandata:
     agw: 254
     mask: 24
     interfaces: [ Portchannel 10, Portchannel 100 ] 
-    hosts: [ sonic-LEAF-1, sonic-LEAF-2 ]
+    hosts: [ sonic-LEAF-1, sonic-LEAF-2, sonic-LEAF-3, sonic-LEAF-4 ]
     vrf: Vrf1
     int_vlan_options: [ neigh-suppress ]
 
@@ -37,7 +37,7 @@ vlandata:
     agw: 254
     mask: 24
     interfaces: [ Portchannel 10, Portchannel 100 ] 
-    hosts: [ sonic-LEAF-1, sonic-LEAF-2 ]
+    hosts: [ sonic-LEAF-1, sonic-LEAF-2, sonic-LEAF-3, sonic-LEAF-4 ]
     vrf: Vrf504
     int_vlan_options: [ neigh-suppress ]
 
@@ -47,7 +47,7 @@ vlandata:
     agw: 254
     mask: 24
     interfaces: [ Portchannel 10, Portchannel 100 ] 
-    hosts: [ sonic-LEAF-1, sonic-LEAF-2 ]
+    hosts: [ sonic-LEAF-1, sonic-LEAF-2, sonic-LEAF-3, sonic-LEAF-4 ]
     vrf: Vrf1
     int_vlan_options: [ neigh-suppress ]
   
