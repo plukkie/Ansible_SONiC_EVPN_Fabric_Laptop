@@ -9,7 +9,7 @@
   vars:
     jenkinsgit: https://github.com/plukkie/Jenkins_CICD_Pipeline_SONiC_Fabric_Laptop.git
     jenkinsdir: ./jenkinsgit
-    settingsfile: settings_laptop.json
+    settingsfile: settings.json
     host_vars_dir: host_vars
     group_vars_dir: group_vars
     inventoryfile: hosts
