@@ -15,6 +15,7 @@
     - name: Read group_vars/all.yml, count total leafs...
       set_fact:
         groupalldata: "{{lookup('file', 'group_vars/all.yaml') }}"
+      delegate_to: localhost
       
         #      vars:
         #        leafcount: "{{ groupalldata | regex_findall('vtep_name') | length }}"
@@ -44,11 +45,13 @@
     - name: Print log results VXLAN tunnels
       debug:
         var: vxlan_log
+      delegate_to: localhost
       when: leafcount|int > 2
 
     - name: Print log results BGP routes
       debug:
         var: bgp_log
+      delegate_to: localhost
       when: leafcount|int <= 2
 
     - name: Valid operational state for VXLAN
@@ -56,6 +59,7 @@
         tunnelcount: "{{ vxlan_log.stdout_lines[0] | regex_findall('oper_up') | length }}"
       debug:
         msg: "Vtep tunnels are 'oper_up' and in sync [{{tunnelcount}} tunnels, {{leafcount}} leafs]"
+      delegate_to: localhost
       when: leafcount|int > 2 and leafcount|int-1 == tunnelcount|int
 
     - name: Invalid operational state for VXLAN
@@ -63,6 +67,7 @@
         tunnelcount: "{{ vxlan_log.stdout_lines[0] | regex_findall('oper_up') | length }}"
       fail:
         msg: "FAIL: Not all Vtep tunnels ({{ tunnelcount }}) detected. Config fault or switch down?"
+      delegate_to: localhost
       when: leafcount|int > 2 and leafcount|int-1 != tunnelcount|int
 
     - name: Valid operational state for BGP routes
@@ -70,6 +75,7 @@
          loopbacks: "{{ bgp_log.stdout_lines[0] | regex_findall('B') | length }}"
       debug:
         msg: "All Loopback routes visible on {{inventory_hostname}} : [{{loopbacks}} routes]"
+      delegate_to: localhost
       when: leafcount|int <= 2 and loopbacks|int >= switchcount|int-1
 
     - name: Invalid operational state for BGP routes
@@ -77,5 +83,6 @@
          loopbacks: "{{ bgp_log.stdout_lines[0] | regex_findall('B') | length }}"
       fail:
         msg: "FAIL: Not All Loopback routes visible on {{inventory_hostname}} : [{{loopbacks}} routes]"
+      delegate_to: localhost
       when: leafcount|int <= 2 and loopbacks|int < switchcount|int-1
 
