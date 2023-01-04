@@ -19,7 +19,7 @@
         #      vars:
         #        leafcount: "{{ groupalldata | regex_findall('vtep_name') | length }}"
 
-    - name: Request vxlan tunnel status...
+    - name: Request VXLAN tunnel status...
       vars:
         ansible_connection: network_cli
       any_errors_fatal: true
@@ -28,9 +28,9 @@
           - show vxlan tunnel 
 
       register: vxlan_log
-      when: leafcount|int > 2
+      #when: leafcount|int > 2
 
-    - name: Check BGP routes of Loopbacks
+    - name: Request BGP routes of Loopbacks...
       vars:
         ansible_connection: network_cli
       any_errors_fatal: true
@@ -39,31 +39,28 @@
           - show ip route bgp | grep /32
 
       register: bgp_log
-      when: leafcount|int <= 2
+      #when: leafcount|int <= 2
       
-    - name: Print log results vxlan tunnels
-      vars:
-        tunnelcount: "{{ vxlan_log.stdout_lines[0] | regex_findall('oper_up') | length }}"
-
+    - name: Print log results VXLAN tunnels
       debug:
         var: vxlan_log
       when: leafcount|int > 2
 
     - name: Print log results BGP routes
       debug:
-              #var: bgp_log
-              var: switchcount
+        var: bgp_log
       when: leafcount|int <= 2
 
     - name: Valid operational state for VXLAN
-
+      vars:
+        tunnelcount: "{{ vxlan_log.stdout_lines[0] | regex_findall('oper_up') | length }}"
       debug:
-        msg: "Vtep tunnels are 'oper_up' and in sync with all leafs ({{leafcount}}"
+        msg: "Vtep tunnels are 'oper_up' and in sync [{{tunnelcount}} tunnels, {{leafcount}} leafs]"
       when: leafcount|int > 2 and leafcount|int-1 == tunnelcount|int
-      #failed_when: (leafcount-1|int != tunnelcount|int)
 
     - name: Invalid operational state for VXLAN
-
+      vars:
+        tunnelcount: "{{ vxlan_log.stdout_lines[0] | regex_findall('oper_up') | length }}"
       fail:
         msg: "FAIL: Not all Vtep tunnels ({{ tunnelcount }}) detected. Config fault or switch down?"
       when: leafcount|int > 2 and leafcount|int-1 != tunnelcount|int
@@ -81,3 +78,4 @@
       fail:
         msg: "FAIL: Not All Loopback routes visible on {{inventory_hostname}} : [{{loopbacks}} routes]"
       when: leafcount|int <= 2 and loopbacks|int < switchcount|int-1
+
