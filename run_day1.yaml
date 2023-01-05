@@ -13,7 +13,7 @@
           - ip vrf mgmt
       register: result
     - pause:
-        seconds: 40
+        seconds: 5
 
 
   tasks: 
