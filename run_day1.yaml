@@ -15,7 +15,6 @@
     - pause:
         seconds: 5
 
-
   tasks: 
 
     - name: Push Configurations For Custom CLIs. pre
