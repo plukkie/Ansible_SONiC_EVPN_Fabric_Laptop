@@ -13,7 +13,7 @@
           - ip vrf mgmt
       register: result
     - pause:
-        seconds: 5
+        seconds: 25
 
   tasks: 
     - name: Push Configurations For Custom CLIs. pre
