@@ -10,8 +10,6 @@ sonic_bgp:
     bgp_as: '{{ bgp_asn }}'
     router_id: '{{ bgp_router_id }}'
     timers:
-      holdtime: 9
-      keepalive_interval: 3
 
 
 sonic_bgp_neighbors:
