@@ -307,7 +307,7 @@ sonic_lag_interfaces:
         - member: {{ x['int'] }}
 {% endif %}
 {% endfor %}
-    name: PortChannel {{ vltiportchannel }}
+    name: PortChannel{{ vltiportchannel }}
   {% endif -%}
   {% for x in range(hostcount) -%}
   - members:

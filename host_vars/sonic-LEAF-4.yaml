@@ -139,7 +139,7 @@ sonic_lag_interfaces:
       interfaces:
         - member: Eth1/3
         - member: Eth1/7
-    name: PortChannel 100
+    name: PortChannel100
   - members:
       interfaces:
         - member: Eth1/4
