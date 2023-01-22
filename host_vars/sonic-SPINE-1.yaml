@@ -9,7 +9,6 @@ sonic_bgp:
         multipath_relax: true
     bgp_as: '{{ bgp_asn }}'
     router_id: '{{ bgp_router_id }}'
-    timers:
 
 
 sonic_bgp_neighbors:

@@ -30,25 +30,28 @@ sonic_bgp_fabriclink_neighbors_aflist:
   - activate: true
     afi: l2vpn
     safi: evpn
+
 sonic_bgp_spineleaf_peergroup:
+  name: spine-leaf
+  address_family:
+    afis:
+      - activate: true
+        afi: ipv4
+        safi: unicast
+      - activate: true
+        afi: l2vpn
+        safi: evpn
   advertisement_interval: 5
-  bfd: true
+  bfd:
+    enabled: true
   capability:
     extended_nexthop: true
-  name: spine-leaf
   remote_as:
     peer_type: external
   timers:
     holdtime: 9
     keepalive: 3
-  address_family:
-    afis:
-      - activate: yes
-        afi: ipv4
-        safi: unicast
-      - activate: yes
-        afi: l2vpn
-        safi: evpn
+
 vlan_info:
   {{conf['fabric']['common']['L3VRFvlan']}}:
     vni: {{conf['fabric']['common']['L3VRFvlan']}}{{conf['fabric']['common']['L3VRFvlan']}}
