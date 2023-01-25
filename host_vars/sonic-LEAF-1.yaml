@@ -18,10 +18,6 @@ sonic_bgp:
     router_id: '{{ bgp_router_id }}'
   - bgp_as: '{{bgp_asn}}'
     vrf_name: Vrf1
-  - bgp_as: '{{ bgp_asn }}'
-    timers:
-      holdtime: 9
-      keepalive_interval: 3
 
 sonic_bgp_af:
   - address_family:
@@ -38,9 +34,8 @@ sonic_bgp_af:
     bgp_as: '{{bgp_asn}}'
   - address_family:
       afis:
-        - advertise_prefix:
-            - afi: ipv4
-              safi: unicast
+        - route_advertise_list:
+            - advertise_afi: ipv4
           afi: l2vpn
           safi: evpn
         - afi: ipv4
