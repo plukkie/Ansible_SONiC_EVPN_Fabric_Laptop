@@ -23,25 +23,25 @@ sonic_bgp_af:
   - address_family:
       afis:
         - afi: ipv4
+          safi: unicast
           max_path:
             ebgp: 2
           redistribute:
             - protocol: connected
-          safi: unicast
-        - advertise_all_vni: true
-          afi: l2vpn
+        - afi: l2vpn
           safi: evpn
+          advertise_all_vni: true
     bgp_as: '{{bgp_asn}}'
   - address_family:
       afis:
-        - route_advertise_list:
-            - advertise_afi: ipv4
-          afi: l2vpn
+        - afi: l2vpn
           safi: evpn
+          route_advertise_list:
+            - advertise_afi: ipv4
         - afi: ipv4
+          safi: unicast
           redistribute:
             - protocol: connected
-          safi: unicast
     bgp_as: '{{ bgp_asn }}'
     vrf_name: Vrf1
 
