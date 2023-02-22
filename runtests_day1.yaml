@@ -60,7 +60,7 @@
       debug:
         msg: "Vtep tunnels are 'oper_up' and in sync [{{tunnelcount}} tunnels, {{leafcount}} leafs]"
       delegate_to: localhost
-      when: leafcount|int > 2 and leafcount|int-1 == tunnelcount|int
+      when: leafcount|int > 2 and (leafcount|int-2)/2 == tunnelcount|int
 
     - name: Invalid operational state for VXLAN
       vars:
