@@ -68,7 +68,7 @@
       fail:
         msg: "FAIL: Not all Vtep tunnels ({{ tunnelcount }}) detected. Config fault or switch down?"
       delegate_to: localhost
-      when: leafcount|int > 2 and leafcount|int-1 != tunnelcount|int
+      when: leafcount|int > 2 and  (leafcount|int-2)/2 != tunnelcount|int
 
     - name: Valid operational state for BGP routes
       vars:
