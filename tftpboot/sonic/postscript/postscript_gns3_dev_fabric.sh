@@ -5,8 +5,10 @@ TFTP_SERVER_IP="10.10.10.201"
 ZTD_PATH=/tftpboot
 CALLBACK=/callback
 STAGING_FINISHED=/ztp_finished
+INVENTORY=/ifabric_inventory
 ADDON_SCRIPTS_PATH=/tftpboot/sonic/postscript_addons/
 SAVE_CONFIG_FILE=save_config.sh
+ENABLE_INTERFACES=enable_interfaces.sh
 ADMIN_HOME=/home/admin/
 CGI=/cgi-bin/callback.sh
 APP=http://
@@ -50,6 +52,11 @@ sleep 2
 sleep 2
 chmod a+x ${ADMIN_HOME}${SAVE_CONFIG_FILE}
 
+# get enable_interfaces addon script
+/usr/bin/curl -s ${APP}${ZTD_SERVER_IP}${ADDON_SCRIPTS_PATH}${ENABLE_INTERFACES} -o ${ADMIN_HOME}${ENABLE_INTERFACES}
+${ADMIN_HOME}${ENABLE_INTERFACES}
+sleep 2
+
 # Check if save_config script present in crontab
 if [[ ! -f "${CRONROOT}" ]]; then touch ${CRONROOT}; fi
 
@@ -64,4 +71,9 @@ fi
 ZTPFINISHFILE=`echo ${DHCP_IP}`.ztp.finished
 echo $SWITCHNAME > $ADMIN_HOME${ZTPFINISHFILE}
 curl -T $ADMIN_HOME$ZTPFINISHFILE tftp://${TFTP_SERVER_IP}${STAGING_FINISHED}/${ZTPFINISHFILE}
+
+#Upload inventory IP file to web server
+IPADDRESS=`echo ${DHCP_IP}`
+echo { \"hostname\" : \"$SWITCHNAME\" } > $ADMIN_HOME${IPADDRESS}
+curl -T $ADMIN_HOME$IPADDRESS tftp://${TFTP_SERVER_IP}${INVENTORY}/${IPADDRESS}
 
