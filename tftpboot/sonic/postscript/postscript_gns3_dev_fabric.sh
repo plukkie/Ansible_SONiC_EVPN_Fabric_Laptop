@@ -54,8 +54,8 @@ chmod a+x ${ADMIN_HOME}${SAVE_CONFIG_FILE}
 
 # get enable_interfaces addon script
 /usr/bin/curl -s ${APP}${ZTD_SERVER_IP}${ADDON_SCRIPTS_PATH}${ENABLE_INTERFACES} -o ${ADMIN_HOME}${ENABLE_INTERFACES}
-${ADMIN_HOME}${ENABLE_INTERFACES}
 sleep 2
+chmod a+x ${ADMIN_HOME}${ENABLE_INTERFACES} && ${ADMIN_HOME}${ENABLE_INTERFACES}
 
 # Check if save_config script present in crontab
 if [[ ! -f "${CRONROOT}" ]]; then touch ${CRONROOT}; fi
