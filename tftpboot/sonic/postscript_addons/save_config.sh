@@ -8,6 +8,7 @@ TFTPSERVER=${MGTPREFIX}1
 STAGING_HOSTNAME="SONiC-ZTP-STAGED"
 ################################################
 
+OOB_INT=eth0
 LOCALCONFIGFILE=/etc/sonic/config_db.json
 HASHALG=sha256sum
 STOREDHASHFILE=/tmp/config_db.json.${HASHALG}
@@ -15,10 +16,15 @@ UPLOADPATH=/sonic/config/
 HOSTNAME=`hostname`
 FILESUFFIX="_config_gns3.json"
 MGTINT=`netstat -rn | grep -i "${MGTPREFIX}" | awk '{print $NF}'`
+MGTINTCOUNT=`echo ${MGTINT} | wc -l`
+
+echo "MGTINT = " $MGTINT
+echo "Interface count = " $MGTINTCOUNT
 
 ## Need to find the management interface that is used
-if [ "${MGTINT}" == "" ]
-	then 
+if [ "${MGTINT}" == "" ] || [ "${MGTINTCOUNT}" -gt "1" ]
+	then
+	  echo "Searching through all VRFs..."
 	  ## Mgt not found in default route table.
 	  ## Seems a VRF is used
 	  VRF_TABLE_IDS=`ip vrf show | egrep -i "vrf|mgmt" | awk '{print $2}'`
@@ -34,6 +40,8 @@ if [ "${MGTINT}" == "" ]
 	else
           ## Mgt interface was found, find ip-address
 	  MGTIP=`ip route show dev ${MGTINT} | awk '{print $NF}'`
+	  echo "Management interface = ${MGTINT}"
+          echo "Management IP = ${MGTIP}"
 fi
 
 MGMTMAC=`ip link show up ${MGTINT} | grep -i "link/ether" | awk {'print $2'}`
@@ -41,21 +49,22 @@ MGMTMAC=`ip link show up ${MGTINT} | grep -i "link/ether" | awk {'print $2'}`
 if [ "${HOSTNAME}" == "${STAGING_HOSTNAME}" ]
 	## No custom hostname configured yet, extend name with mac address
 	then
-	  SAVEDCONFIGFILE=${HOSTNAME}"__${MGTIP}__${MGMTMAC}_"${FILESUFFIX}
+	  SAVEDCONFIGFILE=${HOSTNAME}"__${MGTIP}__${MGTINT}__${MGMTMAC}_"${FILESUFFIX}
 	## Custom hostname is configured, do not use mac address in saved configfile
 	else
-	  SAVEDCONFIGFILE=${HOSTNAME}"__${MGTIP}_"${FILESUFFIX}
+	  SAVEDCONFIGFILE=${HOSTNAME}"__${MGTIP}__${MGTINT}_"${FILESUFFIX}
 fi
 
 if [ ! -f "${STOREDHASHFILE}" ]
    then
-      ${HASHALG} ${LOCALCONFIGFILE} | awk '{print $1'} > ${STOREDHASHFILE}
+      sudo ${HASHALG} ${LOCALCONFIGFILE} | awk '{print $1'} > ${STOREDHASHFILE}
+      uploadconfig=True
 fi
 
 OLDHASH=`cat ${STOREDHASHFILE}`
-NEWHASH=`${HASHALG} ${LOCALCONFIGFILE} | awk '{print $1'}`
+NEWHASH=`sudo ${HASHALG} ${LOCALCONFIGFILE} | awk '{print $1'}`
 
-if [ "${NEWHASH}" != "${OLDHASH}" ]
+if [ "${NEWHASH}" != "${OLDHASH}" ] || [ "${uploadconfig}" == "True" ]
    then
       echo "Config has changed, need to upload new config to server."
       if curl --interface ${MGTINT} -T ${LOCALCONFIGFILE} tftp://${TFTPSERVER}${UPLOADPATH}${SAVEDCONFIGFILE}

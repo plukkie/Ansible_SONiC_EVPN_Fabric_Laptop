@@ -21,9 +21,9 @@ echo "123456789" > $STOREDHASHFILE
 #sleep 2
 
 # get save_config.sh addon script and add to crontab
-/usr/bin/curl -s ${APP}${ZTD_SERVER_IP}${ADDON_SCRIPTS_PATH}${SAVE_CONFIG_FILE} -o ${ADMIN_HOME}${SAVE_CONFIG_FILE}
+sudo /usr/bin/curl -s ${APP}${ZTD_SERVER_IP}${ADDON_SCRIPTS_PATH}${SAVE_CONFIG_FILE} -o ${ADMIN_HOME}${SAVE_CONFIG_FILE}
 sleep 2
-chmod a+x ${ADMIN_HOME}${SAVE_CONFIG_FILE}
+sudo chmod a+x ${ADMIN_HOME}${SAVE_CONFIG_FILE}
 
 # Check if save_config script present in crontab
 if [[ ! -f "${CRONROOT}" ]]; then touch ${CRONROOT}; fi
@@ -35,6 +35,6 @@ fi
 sleep 2
 
 # Save config permanent
-config save -y
+sudo config save -y
 
 
