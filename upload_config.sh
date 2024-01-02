@@ -81,6 +81,7 @@ fi
 sleep 3 && echo -e "Successfully received authorization token..." && sleep 3
 
 ## Upload configfile to switch
+CONFIG_FILENAME=${config##*/}
 echo -e "Upload configfile '$config' to $host..." && sleep 3
 sshpass -p "$defaultpwd" scp -o StrictHostKeyChecking=no $config $username@$host:
 echo "Done" && sleep 3
@@ -89,14 +90,14 @@ echo "Done" && sleep 3
 #resp=`curl -s -k -X GET  $urlprot$host/restconf/data/sonic-device-metadata:sonic-device-metadata -H \"accept: application/yang-data+json\" -H "$authstring"|jq|sed '$ s/}$/,/'`
 
 ## Upload configuration to homedir and write it to startup config
-curl -k -X POST $urlprot$host/restconf/operations/openconfig-file-mgmt-private:copy -H "accept: application/yang-data+json" -H "$authstring" -H "Content-Type: application/yang-data+json" -d "{\"openconfig-file-mgmt-private:input\":{\"source\":\"home://$config\",\"destination\":\"startup-configuration\"}}"
+curl -k -X POST $urlprot$host/restconf/operations/openconfig-file-mgmt-private:copy -H "accept: application/yang-data+json" -H "$authstring" -H "Content-Type: application/yang-data+json" -d "{\"openconfig-file-mgmt-private:input\":{\"source\":\"home://$CONFIG_FILENAME\",\"destination\":\"startup-configuration\"}}"
 
 echo
 
 if [ "$activate" == "load" ]
   then ## Copy config to running
 
-    curl -k -X POST $urlprot$host/restconf/operations/openconfig-file-mgmt-private:copy -H "accept: application/yang-data+json" -H "$authstring" -H "Content-Type: application/yang-data+json" -d "{\"openconfig-file-mgmt-private:input\":{\"source\":\"home://$config\",\"destination\":\"running-configuration\", \"copy-config-option\":\"REPLACE\"}}"
+    curl -k -X POST $urlprot$host/restconf/operations/openconfig-file-mgmt-private:copy -H "accept: application/yang-data+json" -H "$authstring" -H "Content-Type: application/yang-data+json" -d "{\"openconfig-file-mgmt-private:input\":{\"source\":\"home://$CONFIG_FILENAME\",\"destination\":\"running-configuration\", \"copy-config-option\":\"REPLACE\"}}"
 
     echo
 
