@@ -10,7 +10,8 @@
     },
     "DEVICE_METADATA": {
         "localhost": {
-            "hostname": "SONiC-ZTP-STAGED"
+            "hostname": "SONiC-ZTP-STAGED",
+            "intf_naming_mode": "standard"
         }
     },
     "COREDUMP": {
