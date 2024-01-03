@@ -1,5 +1,10 @@
 #!/bin/bash
 
+## Set all IPs that commands will be executed on
+## Set all commands in array that need to be executed
+## Set username/password
+## Commands will be executed via utility 'sshpass'
+
 username=admin
 password=admin123
 
