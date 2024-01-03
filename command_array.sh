@@ -39,18 +39,29 @@ commands=( "scp -o StrictHostKeyChecking=no /tftpboot/sonic/postscript_addons/sa
 
 for ip in "${switch_ips[@]}"
 do
-    for cli_cmd in "${commands[@]}"
-    do
-       echo "execute cmd on ${ip} :"
-       echo " - ${cli_cmd} ${username}@${ip}:"
-       sleep 2
-       if [[ $cli_cmd == *"scp"* ]];
-         then
-           `$sshpassstring ${cli_cmd} ${username}@${ip}:`
-	 else
-	   `$sshpassstring $sshstring ${username}@${ip} $cli_cmd`
-       fi
-    done
-    echo -e "\n-----"
+  echo "Test if host $ip is pingable..."
+  ping -c 5 -i 0.5 -W 1 -q $ip; result=$?
+  if [ $result -eq 0 ];
+    ## Host IS reachable
+    then
+      echo -e "\nSUCCESS...\n"
+      for cli_cmd in "${commands[@]}"
+      do
+        echo "execute cmd on ${ip} :"
+        echo " - ${cli_cmd} ${username}@${ip}:"
+        sleep 2
+        if [[ $cli_cmd == *"scp"* ]];
+          then
+            `$sshpassstring ${cli_cmd} ${username}@${ip}:`
+	  else
+	    `$sshpassstring $sshstring ${username}@${ip} $cli_cmd`
+        fi
+      done
+    else
+      ## Host is NOT reachable
+      echo "$ip is unreachable. Skipping..."
+      sleep 2
+  fi
+  echo -e "\n========================================="
 done
 
