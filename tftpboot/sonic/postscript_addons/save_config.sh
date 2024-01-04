@@ -1,10 +1,11 @@
 #!/bin/bash
 
 ## SET HERE MANAGEMENT NET, MASK AND TFTP SERVER
-MGTPREFIX="192.168.1."
+MGTPREFIX="192.168.1"
 MGTNET=0
+declare -i GW=$MGTNET+1
 MGTMASK="/24"
-TFTPSERVER=${MGTPREFIX}1
+TFTPSERVER="${MGTPREFIX}.${GW}"
 STAGING_HOSTNAME="SONiC-ZTP-STAGED"
 ################################################
 
@@ -15,7 +16,7 @@ STOREDHASHFILE=/tmp/config_db.json.${HASHALG}
 UPLOADPATH=/sonic/config/
 HOSTNAME=`hostname`
 FILESUFFIX="_config_gns3.json"
-MGTINT=`netstat -rn | grep -i "${MGTPREFIX}" | awk '{print $NF}'`
+MGTINT=`netstat -rn | grep -i "${MGTPREFIX}""\.""${MGTNET}" | awk '{print $NF}'`
 MGTINTCOUNT=`echo ${MGTINT} | wc -l`
 
 echo "MGTINT = " $MGTINT
@@ -30,10 +31,10 @@ if [ "${MGTINT}" == "" ] || [ "${MGTINTCOUNT}" -gt "1" ]
 	  VRF_TABLE_IDS=`ip vrf show | egrep -i "vrf|mgmt" | awk '{print $2}'`
 	  ## Loop through all Vrf route tables and find management subnet and interface
 	  for VRF_ID in ${VRF_TABLE_IDS}; do
-	    MGTINT=`ip route show table ${VRF_ID} ${MGTPREFIX}${MGTNET}${MGTMASK} | awk '{print $3}'`
+	    MGTINT=`ip route show table ${VRF_ID} ${MGTPREFIX}\.${MGTNET}${MGTMASK} | awk '{print $3}'`
 	    if [ "${MGTINT}" != "" ] ## Management is found
 	      then
-		MGTIP=`ip route show table ${VRF_ID} ${MGTPREFIX}${MGTNET}${MGTMASK} | awk '{print $NF}'`
+		MGTIP=`ip route show table ${VRF_ID} ${MGTPREFIX}\.${MGTNET}${MGTMASK} | awk '{print $NF}'`
 		break
 	    fi
 	  done
@@ -67,6 +68,10 @@ NEWHASH=`sudo ${HASHALG} ${LOCALCONFIGFILE} | awk '{print $1'}`
 if [ "${NEWHASH}" != "${OLDHASH}" ] || [ "${uploadconfig}" == "True" ]
    then
       echo "Config has changed, need to upload new config to server."
+      echo "mgt int = ${MGTINT}"
+      echo "local config file = ${LOCALCONFIGFILE}"
+      echo "tftp url = tftp://${TFTPSERVER}${UPLOADPATH}${SAVEDCONFIGFILE}"
+ 
       if curl --interface ${MGTINT} -T ${LOCALCONFIGFILE} tftp://${TFTPSERVER}${UPLOADPATH}${SAVEDCONFIGFILE}
 	 then 
             echo ${NEWHASH} > ${STOREDHASHFILE}

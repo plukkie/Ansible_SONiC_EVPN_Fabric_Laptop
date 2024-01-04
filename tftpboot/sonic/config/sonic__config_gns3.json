@@ -11,7 +11,7 @@
     "DEVICE_METADATA": {
         "localhost": {
             "hostname": "SONiC-ZTP-STAGED",
-            "intf_naming_mode": "standard"
+	    "intf_naming_mode": "standard"
         }
     },
     "COREDUMP": {
@@ -26,7 +26,7 @@
     },
     "MGMT_VRF_CONFIG": {
         "vrf_global": {
-            "mgmtVrfEnabled": "false"
+            "mgmtVrfEnabled": "true"
         }
     },
     "SSH_SERVER_VRF": {
@@ -43,5 +43,13 @@
         "system": {
             "timezone_name": "Europe/Amsterdam"
         }
+    },
+    "SAG_GLOBAL": {
+        "IP": {
+            "IPv4": "enable",
+            "IPv6": "enable",
+            "gwmac": "10:20:30:01:02:03"
+        }
     }
+
 }
