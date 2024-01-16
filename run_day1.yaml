@@ -32,7 +32,10 @@
       sonic_port_breakout:
         config: '{{sonic_port_breakout}}'
       when: sonic_port_breakout is defined and sonic_port_breakout
-    
+      
+    - pause:
+        seconds: 15
+        
     - name: Create Vlans
       sonic_vlans:
         config: '{{sonic_vlans}}'
