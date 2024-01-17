@@ -194,8 +194,5 @@ sonic_vxlans:
       - vni: 6060
         vrf: Vrf1
 
-vlans:
-  - 999
-
 vrfs:
   - Vrf1
