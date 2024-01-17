@@ -28,12 +28,13 @@
         config: '{{sonic_system}}'
       when: sonic_system is defined and sonic_system
 
-#    - name: Configure Port Breakouts
-#      sonic_port_breakout:
-#        config: '{{sonic_port_breakout}}'
-#      when: sonic_port_breakout is defined and sonic_port_breakout
+    - name: Configure Port Breakouts
+      sonic_port_breakout:
+        config: '{{sonic_port_breakout}}'
+      when: sonic_port_breakout is defined and sonic_port_breakout
       
     - name: Create Vlans
+      timeout: 60
       sonic_vlans:
         config: '{{sonic_vlans}}'
         state: replaced
