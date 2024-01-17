@@ -3,6 +3,9 @@
   gather_facts: false
   collections:
     - dellemc.enterprise_sonic
+  
+  vars:
+    ansible_command_timeout: 60
 
 #  pre_tasks:
 #    - name: VRF Mgmt
