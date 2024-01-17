@@ -171,7 +171,9 @@ sonic_system:
 
 sonic_vlans:
   - vlan_id: 60
+    decription: "vlan60"
   - vlan_id: 999
+    description: "vlan999"
 
 sonic_vrf_interfaces:
   - members:
