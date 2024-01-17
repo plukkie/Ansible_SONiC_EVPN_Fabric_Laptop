@@ -16,6 +16,7 @@
 #        seconds: 40
 
   tasks: 
+       
     - name: Push Configurations For Custom CLIs. pre
       vars:
         ansible_connection: network_cli
@@ -34,7 +35,6 @@
       when: sonic_port_breakout is defined and sonic_port_breakout
       
     - name: Create Vlans
-      timeout: 60
       sonic_vlans:
         config: '{{sonic_vlans}}'
         state: replaced

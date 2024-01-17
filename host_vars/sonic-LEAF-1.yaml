@@ -84,7 +84,7 @@ sonic_config:
 
 sonic_interfaces:
   - description: 'VLTi link'
-    enable: True
+    enabled: True
     name: Eth1/3
     mtu: 9216
   - description: 'VLTi link'
