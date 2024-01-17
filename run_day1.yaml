@@ -38,7 +38,7 @@
       when: sonic_port_breakout is defined and sonic_port_breakout
       
     - name: Create Vlans
-      timeout: 60
+#      timeout: 60
       sonic_vlans:
         config: '{{sonic_vlans}}'
         state: replaced
