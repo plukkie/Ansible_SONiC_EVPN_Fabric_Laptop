@@ -36,6 +36,7 @@
     - name: Create Vlans
       sonic_vlans:
         config: '{{sonic_vlans}}'
+	state: replaced
       when: sonic_vlans is defined and sonic_vlans
     
     - name: Create LAG Interfaces
