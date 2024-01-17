@@ -4,16 +4,16 @@
   collections:
     - dellemc.enterprise_sonic
 
-  pre_tasks:
-    - name: VRF Mgmt
-      vars:
-        ansible_connection: network_cli
-      sonic_config:
-        lines:
-          - ip vrf mgmt
-      register: result
-    - pause:
-        seconds: 40
+#  pre_tasks:
+#    - name: VRF Mgmt
+#      vars:
+#        ansible_connection: network_cli
+#      sonic_config:
+#        lines:
+#          - ip vrf mgmt
+#      register: result
+#    - pause:
+#        seconds: 40
 
   tasks: 
     - name: Push Configurations For Custom CLIs. pre
@@ -28,14 +28,11 @@
         config: '{{sonic_system}}'
       when: sonic_system is defined and sonic_system
 
-    - name: Configure Port Breakouts
-      sonic_port_breakout:
-        config: '{{sonic_port_breakout}}'
-      when: sonic_port_breakout is defined and sonic_port_breakout
+#    - name: Configure Port Breakouts
+#      sonic_port_breakout:
+#        config: '{{sonic_port_breakout}}'
+#      when: sonic_port_breakout is defined and sonic_port_breakout
       
-    - pause:
-        seconds: 15
-        
     - name: Create Vlans
       sonic_vlans:
         config: '{{sonic_vlans}}'
