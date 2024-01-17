@@ -167,7 +167,7 @@ sonic_system:
     ipv4: true
     mac_address: '{{ anycast_mac_address }}'
   hostname: sonic-LEAF-2
-  interface_naming: standard
+#  interface_naming: standard
 
 sonic_vlans:
   - vlan_id: 60
