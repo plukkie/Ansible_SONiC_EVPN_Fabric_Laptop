@@ -171,9 +171,7 @@ sonic_system:
 
 sonic_vlans:
   - vlan_id: 60
-    description: "L3 VLAN"
   - vlan_id: 999
-    description: "Internal management"
 
 sonic_vrf_interfaces:
   - members:
