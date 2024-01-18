@@ -5,7 +5,7 @@
 {% if myvars is defined -%}
 {% for vlan in myvars['vlandata'] -%}
 
-{% set obj = { 'vrf': '', 'vlan': '', 'ip4gw': '', 'desc': '' } -%}
+{% set obj = { 'vrf': '', 'vlan': '', 'ip4gw': '' } -%}
 
 {% if myvars['vlandata'][vlan]['hosts'] is defined and myvars['vlandata'][vlan]['hosts'] -%}
 {% for host in myvars['vlandata'][vlan]['hosts'] -%}
@@ -16,12 +16,6 @@
 
 {% if myvars['vlandata'][vlan].vrf is defined and myvars['vlandata'][vlan].vrf -%}
 {{ obj.update({'vrf': myvars['vlandata'][vlan].vrf, 'vlan': "Vlan"+vlan|string}) }}
-{% endif -%}
-
-{% if myvars['vlandata'][vlan].desc is defined and myvars['vlandata'][vlan].desc -%}
-{{ obj.update({'desc': myvars['vlandata'][vlan].desc }) }}
-{% else %}
-{{ obj.update({'desc': 'vlan {{ vlan }}' }) }}
 {% endif -%}
 
 {% if myvars['vlandata'][vlan].net is defined and myvars['vlandata'][vlan].net -%}
@@ -62,12 +56,7 @@
 sonic_vlans:
 {% for vlanitem in vlanarray %}
   - vlan_id: {{ vlanitem }}
-{% for vlanvrfitem in vrfarray %}
-{% set vlandescription = vlanvrfitem['desc'] %}
-{% if 'Vlan'+vlanitem|string == vlanvrfitem['vlan'] %}
-    description: {{ vlandescription }}
-{% endif %}
-{% endfor %}
+    description: 
 {% endfor %}
 
 sonic_l2_interfaces:

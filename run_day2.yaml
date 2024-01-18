@@ -8,6 +8,9 @@
   collections:
     - dellemc.enterprise_sonic
 
+  vars:
+    ansible_command_timeout: 60
+
 
   tasks: 
   
