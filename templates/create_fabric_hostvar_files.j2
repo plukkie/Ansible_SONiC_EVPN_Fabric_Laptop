@@ -325,12 +325,14 @@ sonic_system:
     mac_address: '{{ '{{ anycast_mac_address }}' }}'
 {% endif %}
   hostname: {{ inventory_hostname }}
-  interface_naming: standard
+#  interface_naming: standard
 
 {% if role == 'leaf' %}
 sonic_vlans:
   - vlan_id: {{ commonobj['L3VRFvlan'] }}
+    description: vlan{{ commonobj['L3VRFvlan'] }}
   - vlan_id: {{ commonobj['intmgtvlan'] }}
+    description: vlan{{ commonobj['intmgtvlan'] }}
 {% elif role == 'spine' %}
 sonic_vlans: []
 {% endif %}

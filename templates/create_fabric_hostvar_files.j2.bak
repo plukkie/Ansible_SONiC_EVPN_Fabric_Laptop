@@ -87,18 +87,9 @@ sonic_bgp:
         multipath_relax: true
     bgp_as: '{{ '{{ bgp_asn }}' }}'
     router_id: '{{ '{{ bgp_router_id }}' }}'
-{% if role == 'spine' %}
-    timers:
-      holdtime: 9
-      keepalive_interval: 3
-{% endif %}
 {% if role == 'leaf' %}
   - bgp_as: '{{ '{{bgp_asn}}' }}'
     vrf_name: {{ commonobj['L3VRF'] }}
-  - bgp_as: '{{ '{{ bgp_asn }}' }}'
-    timers:
-      holdtime: 9
-      keepalive_interval: 3
 {% endif %}
 
 {% if role == 'leaf' %}
@@ -106,26 +97,25 @@ sonic_bgp_af:
   - address_family:
       afis:
         - afi: ipv4
+          safi: unicast
           max_path:
             ebgp: 2
           redistribute:
             - protocol: connected
-          safi: unicast
-        - advertise_all_vni: true
-          afi: l2vpn
+        - afi: l2vpn
           safi: evpn
+          advertise_all_vni: true
     bgp_as: '{{ '{{bgp_asn}}' }}'
   - address_family:
       afis:
-        - advertise_prefix:
-            - afi: ipv4
-              safi: unicast
-          afi: l2vpn
+        - afi: l2vpn
           safi: evpn
+          route_advertise_list:
+            - advertise_afi: ipv4
         - afi: ipv4
+          safi: unicast
           redistribute:
             - protocol: connected
-          safi: unicast
     bgp_as: '{{ '{{ bgp_asn }}' }}'
     vrf_name: {{ commonobj['L3VRF'] }}
 {% endif %}
@@ -312,7 +302,7 @@ sonic_lag_interfaces:
         - member: {{ x['int'] }}
 {% endif %}
 {% endfor %}
-    name: PortChannel {{ vltiportchannel }}
+    name: PortChannel{{ vltiportchannel }}
   {% endif -%}
   {% for x in range(hostcount) -%}
   - members:
