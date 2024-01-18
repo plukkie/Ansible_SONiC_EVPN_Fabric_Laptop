@@ -65,7 +65,7 @@ sonic_vlans:
 {% for vlanvrfitem in vrfarray %}
 {% set vlandescription = vlanvrfitem['desc'] %}
 {% if 'Vlan'+vlanitem|string == vlanvrfitem['vlan'] %}
-    description: {{ vlandescription }}
+    description: "{{ vlandescription }}"
 {% endif %}
 {% endfor %}
 {% endfor %}
