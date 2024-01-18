@@ -28,7 +28,7 @@
     - name: Create vlans 
       sonic_vlans:
         config: '{{vlans.sonic_vlans}}'
-        state: replaced
+        state: merged
       when: sonic_vlans is defined and sonic_vlans
 
     - name: Create L2 Interfaces with vlans
