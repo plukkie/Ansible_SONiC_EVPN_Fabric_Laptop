@@ -19,11 +19,9 @@
          dir: rendered
          name: vlans
 
-
   #- name: Show yaml var for debug purpose
   #   debug:
   #     msg: "{{ myvars }}"
-
 
     - name: Create vlans 
       sonic_vlans:
