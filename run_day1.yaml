@@ -125,7 +125,7 @@
     - name: Reboot
       sonic_command:
         commands:
-          - command: 'reload'
+          - 'reboot'
 
     - pause:
         seconds: 210
