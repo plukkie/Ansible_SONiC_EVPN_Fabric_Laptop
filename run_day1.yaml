@@ -122,3 +122,10 @@
       sonic_config:
         save: yes
 
+    - name: Reboot
+      sonic_command:
+        commands:
+          - command: 'reload'
+
+    - pause:
+        seconds: 210
