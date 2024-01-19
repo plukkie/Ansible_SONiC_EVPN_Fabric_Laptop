@@ -38,7 +38,6 @@
       when: sonic_port_breakout is defined and sonic_port_breakout
       
     - name: Create Vlans
-#      timeout: 60
       sonic_vlans:
         config: '{{sonic_vlans}}'
         state: replaced
@@ -110,11 +109,11 @@
         config: '{{sonic_aaa}}'
       when: sonic_aaa is defined and sonic_aaa
     
-#    - name: Push Configurations For Custom CLIs
-#      vars:
-#        ansible_connection: network_cli
-#      sonic_config:
-#        src: fdc_clis.j2
+    - name: Push Configurations For Custom CLIs
+      vars:
+        ansible_connection: network_cli
+      sonic_config:
+        src: fdc_clis.j2
 #      register: result
 
     - name: Save config
