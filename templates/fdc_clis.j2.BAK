@@ -4,6 +4,55 @@
 #Purpose:
 Custom configuration for SONiC devices
 
+#######################################}
+{#######################################
+{%if intfs is defined and intfs%}
+  {%for intf in intfs%}
+interface {{intf.name}}
+    {%if intf.ipv6_enabled is defined and intf.ipv6_enabled%}
+  ipv6 enable
+    {%endif%}
+  {%endfor%}
+{%endif%}
+#######################################}
+
+
+{# ntp server start #}
+{%if ntp_servers is defined and ntp_servers%}
+ntp vrf mgmt
+  {%for ntp_server in ntp_servers%}
+ntp server {{ntp_server}}
+  {%endfor%}
+{%endif%}
+{# ntp server end #}
+
+{#snmp server start#}
+{%if snmp_server is defined and snmp_server%}
+snmp-server contact {{snmp_server.contact}}
+snmp-server community {{snmp_server.community}}
+snmp-server enable trap
+  {%for host in snmp_server.hosts%}
+snmp-server host {{host.host_ip}} community {{host.community_str}} port {{host.udp_port}}
+  {%endfor%}
+{%endif%}
+{#snmp server end#}
+
+{# logging server start #}
+{%if logging_servers is defined and logging_servers%}
+  {%for logging_server in logging_servers%}
+logging server {{logging_server.name}}{%if logging_server.port and logging_server.port > 0%} remote-port {{logging_server.port}}{%endif%} vrf mgmt
+
+  {%endfor%}
+{%endif%}
+{# logging server end #}
+
+{# DNS server start #}
+{%if dns_servers is defined and dns_servers%}
+  {%for dns_server in dns_servers%}
+ip name-server {{dns_server}} vrf mgmt
+  {%endfor%}
+{%endif%}
+{# DNS server end #}
 
 {#following interface mclag is inactive block, as resource module is available for mclag #}
 {% if sonic_mclag_cli is defined and sonic_mclag_cli %}

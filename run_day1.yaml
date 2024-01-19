@@ -110,12 +110,12 @@
         config: '{{sonic_aaa}}'
       when: sonic_aaa is defined and sonic_aaa
     
-    - name: Push Configurations For Custom CLIs
-      vars:
-        ansible_connection: network_cli
-      sonic_config:
-        src: fdc_clis.j2
-      #register: result
+#    - name: Push Configurations For Custom CLIs
+#      vars:
+#        ansible_connection: network_cli
+#      sonic_config:
+#        src: fdc_clis.j2
+#      register: result
 
     - name: Save config
       vars:
