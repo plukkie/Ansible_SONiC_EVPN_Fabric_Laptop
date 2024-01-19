@@ -53,5 +53,5 @@
       vars:
         ansible_connection: network_cli
       sonic_config:
-        save: true
+        save: false
 
