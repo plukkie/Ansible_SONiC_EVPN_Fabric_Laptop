@@ -127,5 +127,20 @@
         commands:
           - 'reboot'
 
-    - pause:
-        seconds: 210
+    - name: Reboot (reason create vlans Nonetype get error)
+      vars:
+        ansible_connection: network_cli
+        ansible_command_timeout: 15
+
+      sonic_command:
+        commands:
+          - reboot force yes
+
+      ignore_errors: yes
+
+    - name: Wait for ssh connection restablished after reboot...
+      local_action:
+        module: wait_for
+          host={{ inventory_hostname }}
+          delay=10
+
