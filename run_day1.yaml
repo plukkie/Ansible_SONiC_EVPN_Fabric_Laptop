@@ -122,25 +122,20 @@
       sonic_config:
         save: yes
 
-    - name: Reboot
-      sonic_command:
-        commands:
-          - 'reboot'
-
-    - name: Reboot (reason create vlans Nonetype get error)
+    - name: "Reboot (reason - sonic_vlans gives 'Nonetype get error')"
       vars:
         ansible_connection: network_cli
-        ansible_command_timeout: 15
 
       sonic_command:
         commands:
           - reboot force yes
+      async: 20
+      poll: 0
 
       ignore_errors: yes
 
-    - name: Wait for ssh connection restablished after reboot...
-      local_action:
-        module: wait_for
-          host={{ inventory_hostname }}
-          delay=10
+    - pause:
+       prompt: Waiting for systems to come back online...
+       minutes: 6
+
 
