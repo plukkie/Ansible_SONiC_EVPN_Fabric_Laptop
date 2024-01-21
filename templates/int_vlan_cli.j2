@@ -1,0 +1,14 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+{#######################################
+Purpose:
+Custom configuration for SONiC devices
+if the roles gives errors or the config
+is not supported in the ansible roles.
+#########################################}
+
+{%for vlan_object in vlan_data.sonic_vlans%}
+interface vlan {{ vlan_object.vlan_id }}
+  description "{{ vlan_object.description }}"
+
+{%endfor%}
+

@@ -120,22 +120,22 @@
       vars:
         ansible_connection: network_cli
       sonic_config:
-        save: yes
+        save: no
 
-    - name: "Reboot (reason - sonic_vlans gives 'Nonetype get error')"
-      vars:
-        ansible_connection: network_cli
+#    - name: "Reboot (reason - sonic_vlans gives 'Nonetype get error')"
+#      vars:
+#        ansible_connection: network_cli
 
-      sonic_command:
-        commands:
-          - reboot force yes
-      async: 20
-      poll: 0
+#      sonic_command:
+#        commands:
+#          - reboot force yes
+#      async: 20
+#      poll: 0
 
-      ignore_errors: yes
+#      ignore_errors: yes
 
-    - pause:
-       prompt: Waiting for systems to come back online...
-       minutes: 6
+#    - pause:
+#       prompt: Waiting for systems to come back online...
+#       minutes: 6
 
 
