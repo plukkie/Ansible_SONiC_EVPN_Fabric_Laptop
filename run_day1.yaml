@@ -19,6 +19,18 @@
 #        seconds: 40
 
   tasks: 
+
+    - name: Wait until hosts are reachable for ssh (max 3 min)
+
+      vars:
+        ansible_command_timeout: 180
+
+      ansible.builtin.wait_for:
+        connect_timeout: 5
+        port: 22
+        delay: 0
+        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+        search_regex: OpenSSH
        
     - name: Push Configurations For Custom CLIs. pre
       vars:
