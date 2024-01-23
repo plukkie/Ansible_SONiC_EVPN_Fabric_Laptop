@@ -76,7 +76,6 @@
       when: sonic_vrf_interfaces is defined and sonic_vrf_interfaces
     
     - name: Create L3 Interfaces
-      tags: tagged 
       sonic_l3_interfaces:
         config: '{{sonic_l3_interfaces}}'
       when: sonic_l3_interfaces is defined and sonic_l3_interfaces
