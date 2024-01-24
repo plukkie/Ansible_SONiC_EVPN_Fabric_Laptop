@@ -5,7 +5,7 @@
     - dellemc.enterprise_sonic
   
   vars:
-    ansible_command_timeout: 90
+    ansible_command_timeout: 150
 
 #  pre_tasks:
 #    - name: VRF Mgmt
