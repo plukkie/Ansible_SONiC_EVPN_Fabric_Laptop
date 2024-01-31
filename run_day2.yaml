@@ -23,17 +23,17 @@
   #   debug:
   #     msg: "{{ myvars }}"
 
-    - name: Create vlan interfaces...
-      vars:
-        ansible_connection: network_cli
-      sonic_config:
-        src: templates/int_vlan_cli.j2
+#    - name: Create vlan interfaces...
+#      vars:
+#        ansible_connection: network_cli
+#      sonic_config:
+#        src: templates/int_vlan_cli.j2
 
-#    - name: Create vlans 
-#      sonic_vlans:
-#        config: '{{vlans.sonic_vlans}}'
-#        state: merged
-#      when: sonic_vlans is defined and sonic_vlans
+    - name: Create vlans 
+      sonic_vlans:
+        config: '{{vlan_data.sonic_vlans}}'
+        state: merged
+      when: sonic_vlans is defined and sonic_vlans
 
     - name: Create L2 Interfaces with vlans
       sonic_l2_interfaces:

@@ -30,16 +30,13 @@
         }
     },
     "SSH_SERVER_VRF": {
-        "default": {
-            "port": "22"
-        },
         "mgmt": {
             "port": "22"
         }
     },
     "SWITCH": {
         "switch": {
-            "fdb_aging_time": "600"
+            "fdb_aging_time": "1800"
         }
     },
     "CLOCK": {
@@ -50,7 +47,7 @@
     "LLDP": {
         "GLOBAL": {
             "hello_time": "5",
-            "enabled": "true"
+            "enabled": "false"
         }
     }
 }

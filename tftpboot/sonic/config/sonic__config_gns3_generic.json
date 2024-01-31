@@ -2,7 +2,7 @@
     "MGMT_PORT": {
         "eth0": {
             "admin_status": "up",
-            "autoneg": "false",
+            "autoneg": "true",
             "description": "dhcp managed interface",
             "mtu": "1500",
             "speed": "1000"
@@ -10,15 +10,15 @@
     },
     "DEVICE_METADATA": {
         "localhost": {
-            "hostname": "SONiC-ztp-staged",
-	    "intf_naming_mode": "standard"
+            "hostname": "SONiC-ZTP-STAGED-GENERIC",
+            "intf_naming_mode": "standard"
         }
     },
     "COREDUMP": {
         "config": {
-            "enabled": "false"
+            "enabled": "true"
         }
-    }, 
+    },
     "VRF": {
         "default": {
             "enabled": "true"
@@ -32,9 +32,6 @@
     "SSH_SERVER_VRF": {
         "default": {
             "port": "22"
-        },
-        "mgmt": {
-            "port": "22"
         }
     },
     "SWITCH": {
@@ -47,10 +44,13 @@
             "timezone_name": "Europe/Amsterdam"
         }
     },
-    "LLDP": {
-        "GLOBAL": {
-            "hello_time": "5",
-            "enabled": "true"
+    "SAG_GLOBAL": {
+        "IP": {
+            "IPv4": "enable",
+            "IPv6": "enable",
+            "gwmac": "10:20:30:01:02:03"
         }
     }
+
 }
+

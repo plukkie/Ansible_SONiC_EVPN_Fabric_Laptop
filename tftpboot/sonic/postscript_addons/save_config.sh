@@ -1,12 +1,14 @@
 #!/bin/bash
 
 ## SET HERE MANAGEMENT NET, MASK AND TFTP SERVER
-MGTPREFIX="192.168.1"
+MGTPREFIX="10.10.10"
 MGTNET=0
+TFTP_HOST=201
 declare -i GW=$MGTNET+1
 MGTMASK="/24"
-TFTPSERVER="${MGTPREFIX}.${GW}"
-STAGING_HOSTNAME="SONiC-ZTP-STAGED"
+TFTPSERVER="${MGTPREFIX}.${TFTP_HOST}"
+#STAGING_HOSTNAME="SONiC-ZTP-STAGED-GENERIC"
+STAGING_HOSTNAME="STAG-000000"
 ################################################
 
 OOB_INT=eth0
@@ -24,36 +26,36 @@ echo "Interface count = " $MGTINTCOUNT
 
 ## Need to find the management interface that is used
 if [ "${MGTINT}" == "" ] || [ "${MGTINTCOUNT}" -gt "1" ]
-	then
-	  echo "Searching through all VRFs..."
-	  ## Mgt not found in default route table.
-	  ## Seems a VRF is used
-	  VRF_TABLE_IDS=`ip vrf show | egrep -i "vrf|mgmt" | awk '{print $2}'`
-	  ## Loop through all Vrf route tables and find management subnet and interface
-	  for VRF_ID in ${VRF_TABLE_IDS}; do
-	    MGTINT=`ip route show table ${VRF_ID} ${MGTPREFIX}\.${MGTNET}${MGTMASK} | awk '{print $3}'`
-	    if [ "${MGTINT}" != "" ] ## Management is found
-	      then
-		MGTIP=`ip route show table ${VRF_ID} ${MGTPREFIX}\.${MGTNET}${MGTMASK} | awk '{print $NF}'`
-		break
-	    fi
-	  done
-	else
+        then
+          echo "Searching through all VRFs..."
+          ## Mgt not found in default route table.
+          ## Seems a VRF is used
+          VRF_TABLE_IDS=`ip vrf show | egrep -i "vrf|mgmt" | awk '{print $2}'`
+          ## Loop through all Vrf route tables and find management subnet and interface
+          for VRF_ID in ${VRF_TABLE_IDS}; do
+            MGTINT=`ip route show table ${VRF_ID} ${MGTPREFIX}\.${MGTNET}${MGTMASK} | awk '{print $3}'`
+            if [ "${MGTINT}" != "" ] ## Management is found
+              then
+                MGTIP=`ip route show table ${VRF_ID} ${MGTPREFIX}\.${MGTNET}${MGTMASK} | awk '{print $NF}'`
+                break
+            fi
+          done
+        else
           ## Mgt interface was found, find ip-address
-	  MGTIP=`ip route show dev ${MGTINT} | awk '{print $NF}'`
-	  echo "Management interface = ${MGTINT}"
+          MGTIP=`ip route show dev ${MGTINT} | awk '{print $NF}'`
+          echo "Management interface = ${MGTINT}"
           echo "Management IP = ${MGTIP}"
 fi
 
 MGMTMAC=`ip link show up ${MGTINT} | grep -i "link/ether" | awk {'print $2'}`
 
 if [ "${HOSTNAME}" == "${STAGING_HOSTNAME}" ]
-	## No custom hostname configured yet, extend name with mac address
-	then
-	  SAVEDCONFIGFILE=${HOSTNAME}"__${MGTIP}__${MGTINT}__${MGMTMAC}_"${FILESUFFIX}
-	## Custom hostname is configured, do not use mac address in saved configfile
-	else
-	  SAVEDCONFIGFILE=${HOSTNAME}"__${MGTIP}__${MGTINT}_"${FILESUFFIX}
+        ## No custom hostname configured yet, extend name with mac address
+        then
+          SAVEDCONFIGFILE=${HOSTNAME}"__${MGTIP}__${MGTINT}__${MGMTMAC}_"${FILESUFFIX}
+        ## Custom hostname is configured, do not use mac address in saved configfile
+        else
+          SAVEDCONFIGFILE=${HOSTNAME}"__${MGTIP}__${MGTINT}_"${FILESUFFIX}
 fi
 
 if [ ! -f "${STOREDHASHFILE}" ]
@@ -71,12 +73,12 @@ if [ "${NEWHASH}" != "${OLDHASH}" ] || [ "${uploadconfig}" == "True" ]
       echo "mgt int = ${MGTINT}"
       echo "local config file = ${LOCALCONFIGFILE}"
       echo "tftp url = tftp://${TFTPSERVER}${UPLOADPATH}${SAVEDCONFIGFILE}"
- 
+
       if curl --interface ${MGTINT} -T ${LOCALCONFIGFILE} tftp://${TFTPSERVER}${UPLOADPATH}${SAVEDCONFIGFILE}
-	 then 
+         then
             echo ${NEWHASH} > ${STOREDHASHFILE}
-	    echo "Succesfull upload"
-	 else
+            echo "Succesfull upload"
+         else
             echo "Error uploading file"
       fi
    else

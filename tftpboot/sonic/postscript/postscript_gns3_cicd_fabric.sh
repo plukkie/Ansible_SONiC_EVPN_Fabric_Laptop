@@ -22,13 +22,13 @@ TMP=/tmp
 ###########################################################################
 # Request callback script at http server (cgi-script)
 # This creates a file with name <ip-address> and hostname on the server
-/usr/bin/curl -s ${APP}${ZTD_SERVER_IP}${CGI} && sleep 2
+/usr/bin/curl --interface $OOB_INT -s ${APP}${ZTD_SERVER_IP}${CGI} && sleep 2
 
 ## Extract the ip-address that was received from dhcp server
 DHCP_IP=`hostname -I | awk '{printf $1}'`
 
 # Fetch switch hostname
-SWITCHNAME=`/usr/bin/curl ${APP}${ZTD_SERVER_IP}${ZTD_PATH}${CALLBACK}/${DHCP_IP}` && sleep 2
+SWITCHNAME=`/usr/bin/curl --interface $OOB_INT ${APP}${ZTD_SERVER_IP}${ZTD_PATH}${CALLBACK}/${DHCP_IP}` && sleep 2
 
 # Check if switchname was found on webserver and received
 if [ -z "${SWITCHNAME}" ] || [ "${SWITCHNAME}" = '' ]
@@ -47,9 +47,9 @@ for ITEM in ${PASSWORDLIST[@]}; do
 done
 
 # get enable_interfaces addon script
-/usr/bin/curl --interface $OOB_INT -s ${APP}${ZTD_SERVER_IP}${ADDON_SCRIPTS_PATH}${ENABLE_INTERFACES} -o ${ADMIN_HOME}${ENABLE_INTERFACES}
-sleep 2
-chmod a+x ${ADMIN_HOME}${ENABLE_INTERFACES} && ${ADMIN_HOME}${ENABLE_INTERFACES}
+#/usr/bin/curl --interface $OOB_INT -s ${APP}${ZTD_SERVER_IP}${ADDON_SCRIPTS_PATH}${ENABLE_INTERFACES} -o ${ADMIN_HOME}${ENABLE_INTERFACES}
+#sleep 2
+#chmod a+x ${ADMIN_HOME}${ENABLE_INTERFACES} && ${ADMIN_HOME}${ENABLE_INTERFACES}
 
 sleep 2
 
@@ -74,7 +74,7 @@ echo $SWITCHNAME > $ADMIN_HOME${ZTPFINISHFILE}
 curl --interface $OOB_INT -T $ADMIN_HOME$ZTPFINISHFILE tftp://${TFTP_SERVER_IP}${STAGING_FINISHED}/${ZTPFINISHFILE}
 
 #Upload inventory IP file to web server
-IPADDRESS=`echo ${DHCP_IP}`
-echo { \"hostname\" : \"$SWITCHNAME\" } > $ADMIN_HOME${IPADDRESS}
-curl -T $ADMIN_HOME$IPADDRESS tftp://${TFTP_SERVER_IP}${INVENTORY}/${IPADDRESS}
+#IPADDRESS=`echo ${DHCP_IP}`
+#echo { \"hostname\" : \"$SWITCHNAME\" } > $ADMIN_HOME${IPADDRESS}
+#curl --interface $OOB_INT -T $ADMIN_HOME$IPADDRESS tftp://${TFTP_SERVER_IP}${INVENTORY}/${IPADDRESS}
 
