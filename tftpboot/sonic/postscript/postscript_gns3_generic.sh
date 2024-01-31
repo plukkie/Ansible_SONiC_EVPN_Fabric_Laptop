@@ -60,7 +60,8 @@ echo "123456789" > $STOREDHASHFILE
 # get save_config.sh addon script and add to crontab
 echo "Get save_config script from server..." && sleep 2
 sudo /usr/bin/curl --interface $OOB_INT -s ${APP}${ZTD_SERVER_IP}${ADDON_SCRIPTS_PATH}${SAVE_CONFIG_FILE} -o ${ADMIN_HOME}${SAVE_CONFIG_FILE}
-sudo chmod a+x ${ADMIN_HOME}${SAVE_CONFIG_FILE}
+sudo chmod 755 ${ADMIN_HOME}${SAVE_CONFIG_FILE}
+sudo chown admin:admin ${ADMIN_HOME}${SAVE_CONFIG_FILE}
 
 # Check if save_config script present in crontab
 if [[ ! -f "${CRONROOT}" ]]; then touch ${CRONROOT}; fi
