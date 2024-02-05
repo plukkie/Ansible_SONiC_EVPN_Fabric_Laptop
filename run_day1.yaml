@@ -36,6 +36,7 @@
         host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
           #search_regex: OpenSSH
         state: started 
+        active_connection_states: "SYN_RECV"
 
     - name: Push Configurations For Custom CLIs. pre
       vars:
