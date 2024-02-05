@@ -25,6 +25,9 @@
       vars:
         ansible_command_timeout: 180
 
+      tags:
+      - wait
+
       ansible.builtin.wait_for:
         connect_timeout: 5
         port: 22
