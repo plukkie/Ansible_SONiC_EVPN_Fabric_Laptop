@@ -24,6 +24,7 @@
 
       vars:
         ansible_command_timeout: 180
+        ansible_connection: network_cli
 
       tags:
       - wait
