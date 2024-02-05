@@ -34,7 +34,7 @@
         port: 22
         delay: 0
         host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
-        search_regex: OpenSSH
+          #search_regex: OpenSSH
         active_connection_states: "ESTABLISHED"
 
     - name: Push Configurations For Custom CLIs. pre
