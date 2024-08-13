@@ -13,7 +13,6 @@ interface PortChannel {{lacp_pc}} mode active fallback
 
 #port-group 1 speed 10000
 #port-group 2 speed 10000
-ip anycast-address enable
 
 {% if vtep_name is defined and vtep_name %}
  interface vxlan {{vtep_name}}
