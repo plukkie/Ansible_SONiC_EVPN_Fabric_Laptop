@@ -54,10 +54,6 @@ sonic_bgp_neighbors:
         peer_group: spine-leaf
       - neighbor: Eth1/5
         peer_group: spine-leaf
-      - neighbor: Eth1/9
-        peer_group: spine-leaf
-      - neighbor: Eth1/13
-        peer_group: spine-leaf
   - bgp_as: '{{bgp_asn}}'
     neighbors:
       - neighbor: 2.0.1.0
@@ -72,10 +68,6 @@ sonic_bgp_neighbors_af:
         neighbor: Eth1/1
       - address_family: '{{sonic_bgp_fabriclink_neighbors_aflist}}'
         neighbor: Eth1/5
-      - address_family: '{{sonic_bgp_fabriclink_neighbors_aflist}}'
-        neighbor: Eth1/9
-      - address_family: '{{sonic_bgp_fabriclink_neighbors_aflist}}'
-        neighbor: Eth1/13
   - bgp_as: '{{bgp_asn}}'
     neighbors:
       - address_family:
@@ -119,14 +111,6 @@ sonic_interfaces:
     enabled: True
     name: Eth1/5
     mtu: 9216
-  - description: 'Interlink'
-    enabled: True
-    name: Eth1/9
-    mtu: 9216
-  - description: 'Interlink'
-    enabled: True
-    name: Eth1/13
-    mtu: 9216
   - description: 'Borderlink'
     enabled: True
     name: Eth1/2
@@ -154,12 +138,6 @@ sonic_l3_interfaces:
   - ipv6:
       enabled: True
     name: Eth1/5
-  - ipv6:
-      enabled: True
-    name: Eth1/9
-  - ipv6:
-      enabled: True
-    name: Eth1/13
   - ipv4:
       addresses:
         - address: 2.0.1.1/31

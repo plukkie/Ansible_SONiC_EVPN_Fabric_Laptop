@@ -66,16 +66,6 @@ host_data:
      bgp_router_id: 10.0.1.2
      loopback0_ip: 10.0.1.2/32
      mclag_peer_ip: 10.0.1.1
-  sonic-SPINE-3:
-     bgp_asn: 65002
-     bgp_router_id: 10.0.1.3
-     loopback0_ip: 10.0.1.3/32
-     mclag_peer_ip: 10.0.1.4
-  sonic-SPINE-4:
-     bgp_asn: 65002
-     bgp_router_id: 10.0.1.4
-     loopback0_ip: 10.0.1.4/32
-     mclag_peer_ip: 10.0.1.3
   sonic-LEAF-1:
      bgp_asn: 65501
      bgp_router_id: 10.0.2.1
@@ -108,19 +98,3 @@ host_data:
      loopback1_ip: 10.10.10.2/32
      mclag_peer_ip: 10.0.2.3
      vtep_name: vtep3
-  sonic-LEAF-5:
-     bgp_asn: 65503
-     bgp_router_id: 10.0.2.5
-     loopback0_ip: 10.0.2.5/32
-     ipdhcp_loopback_ip: 192.168.0.5/32
-     loopback1_ip: 10.10.10.3/32
-     mclag_peer_ip: 10.0.2.6
-     vtep_name: vtep5
-  sonic-LEAF-6:
-     bgp_asn: 65503
-     bgp_router_id: 10.0.2.6
-     loopback0_ip: 10.0.2.6/32
-     ipdhcp_loopback_ip: 192.168.0.6/32
-     loopback1_ip: 10.10.10.3/32
-     mclag_peer_ip: 10.0.2.5
-     vtep_name: vtep5
