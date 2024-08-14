@@ -58,17 +58,17 @@
       vars:
         tunnelcount: "{{ vxlan_log.stdout_lines[0] | regex_findall('oper_up') | length }}"
       debug:
-        msg: "Vtep tunnels are 'oper_up' and in sync [{{tunnelcount}} tunnels, {{leafcount}} leafs]"
+        msg: "Vtep tunnels are 'oper_up' and in sync [{{tunnelcount}} tunnels, {{leafcount}} leafs]. ALL GOOD!"
       delegate_to: localhost
-      when: leafcount|int > 2 and (leafcount|int-2)/2 == tunnelcount|int
+      when: leafcount|int > 2 and leafcount|int-1 == tunnelcount|int
 
     - name: Invalid operational state for VXLAN
       vars:
         tunnelcount: "{{ vxlan_log.stdout_lines[0] | regex_findall('oper_up') | length }}"
       fail:
-        msg: "FAIL: Not all Vtep tunnels ({{ tunnelcount }}) detected. Config fault or switch down?"
+        msg: "FAIL: Not all Vtep tunnels ({{ tunnelcount }}) detected ({{ leafcount }} leafs). Config fault or switch down?"
       delegate_to: localhost
-      when: leafcount|int > 2 and  (leafcount|int-2)/2 != tunnelcount|int
+      when: leafcount|int > 2 and leafcount|int-1 != tunnelcount|int
 
     - name: Valid operational state for BGP routes
       vars:
