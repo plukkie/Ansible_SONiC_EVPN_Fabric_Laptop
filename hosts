@@ -6,8 +6,8 @@ sonic-LEAF-1 ansible_host=192.168.1.11
 sonic-LEAF-2 ansible_host=192.168.1.12
 sonic-LEAF-3 ansible_host=192.168.1.13
 sonic-LEAF-4 ansible_host=192.168.1.14
-#sonic-LEAF-5 ansible_host=192.168.1.15
-#sonic-LEAF-6 ansible_host=192.168.1.16
+sonic-LEAF-5 ansible_host=192.168.1.15
+sonic-LEAF-6 ansible_host=192.168.1.16
 
 [spine]
 sonic-SPINE-1
@@ -20,8 +20,8 @@ sonic-LEAF-1
 sonic-LEAF-2
 sonic-LEAF-3
 sonic-LEAF-4
-#sonic-LEAF-5
-#sonic-LEAF-6
+sonic-LEAF-5
+sonic-LEAF-6
 
 [all:children]
 spine
