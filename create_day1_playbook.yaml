@@ -22,6 +22,7 @@
       run_once: true
       git:
         repo: "{{ jenkinsgit }}"
+        version: evpnmh
         dest: "{{ jenkinsdir }}"
 
         #- name: Create inventory file

@@ -9,12 +9,6 @@ loopback1_ip: '{{ host_data[inventory_hostname].loopback1_ip }}'
 mclag_member_pcs: []
 mclag_pc_1: PortChannel100
 mclag_peer_ip: '{{ host_data[inventory_hostname].mclag_peer_ip}}'
-sonic_mclag:
-  domain_id: 1
-  members:
-    portchannels: '{{ mclag_member_pcs }}'
-  peer_address: '{{ mclag_peer_ip }}'
-  peer_link: '{{ mclag_pc_1 }}'
-  source_address: '{{ loopback0_ip.split("/")[0] }}'
+
 vtep_name: '{{ host_data[inventory_hostname].vtep_name }}'
 

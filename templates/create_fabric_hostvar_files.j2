@@ -1,3 +1,4 @@
+{% set fabrictype = jsonobj['fabric']['type'] -%}
 {% set leafobj = jsonobj['fabric']['leaf'] -%}
 {% set spineobj = jsonobj['fabric']['spine'] -%}
 {% set commonobj = jsonobj['fabric']['common'] -%}
@@ -18,6 +19,10 @@
 {% set leafborderint = jsonobj['gns3']['nodesdata']['templates']['leaf']['borderlinks'] -%}
 {% set vltiportchannel = leafobj['vlti-Portchannel'] -%}
 
+{% if 'evpn' in fabrictype -%}
+{% set ft = 'evpnmh' -%}
+{% endif -%}
+
 {% set interface_array = [] -%}
 {% set l3_interface_array = [] -%}
 {% set border_int_array = [] -%}
@@ -34,7 +39,7 @@
 {% endif -%}
 
 {% set vlti = jsonobj['gns3']['nodesdata']['templates'][role]['vlti'] -%}
-{% if vlti['count'] > 0 -%}
+{% if vlti['count'] > 0 and ft != 'evpnmh' -%}
 {% set adapter = vlti['1st_adapter_number'] -%}
 {% set adapterstep = vlti['adapterstep']|int -%}
 {% set port = vlti['port'] -%}

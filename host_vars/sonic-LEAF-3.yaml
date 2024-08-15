@@ -1,8 +1,6 @@
 
 
 
-
-
 lacp_pcs:
   - 10
   
@@ -77,14 +75,6 @@ sonic_config:
   lines: []
 
 sonic_interfaces:
-  - description: 'VLTi link'
-    enabled: True
-    name: Eth1/3
-    mtu: 9216
-  - description: 'VLTi link'
-    enabled: True
-    name: Eth1/7
-    mtu: 9216
   - description: 'Host0 link'
     enabled: True
     name: Eth1/4
@@ -154,8 +144,6 @@ sonic_l3_interfaces:
 sonic_lag_interfaces:
   - members:
       interfaces:
-        - member: Eth1/3
-        - member: Eth1/7
     name: PortChannel100
   - members:
       interfaces:
