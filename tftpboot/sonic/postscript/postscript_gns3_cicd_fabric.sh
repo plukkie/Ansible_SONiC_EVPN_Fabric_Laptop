@@ -19,6 +19,12 @@ USER_NAME=admin
 PASSWORD=YourPaSsWoRd
 PASSWORDLIST=( "${PASSWORD}" "admin" "admin123" "Password01" "Password01!" )
 TMP=/tmp
+
+function change_password(){
+  ## Set the password
+  echo -e "admin123\nadmin123" | sudo passwd admin
+}
+
 ###########################################################################
 # Request callback script at http server (cgi-script)
 # This creates a file with name <ip-address> and hostname on the server
@@ -78,3 +84,6 @@ curl --interface $OOB_INT -T $ADMIN_HOME$ZTPFINISHFILE tftp://${TFTP_SERVER_IP}$
 #echo { \"hostname\" : \"$SWITCHNAME\" } > $ADMIN_HOME${IPADDRESS}
 #curl --interface $OOB_INT -T $ADMIN_HOME$IPADDRESS tftp://${TFTP_SERVER_IP}${INVENTORY}/${IPADDRESS}
 
+# Change admin pwd
+echo "Change password for user admin..." && sleep 2
+change_password
