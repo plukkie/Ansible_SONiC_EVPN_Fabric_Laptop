@@ -5,7 +5,7 @@
 {% if myvars is defined -%}
 {% for vlan in myvars['vlandata'] -%}
 
-{% set obj = { 'vrf': '', 'vlan': '', 'ip4gw': '', 'desc': '' } -%}
+{% set obj = { 'vrf': '', 'vlan': '', 'ip4gw': '', 'desc': '', 'state': '' } -%}
 
 {% if myvars['vlandata'][vlan]['hosts'] is defined and myvars['vlandata'][vlan]['hosts'] -%}
 {% for host in myvars['vlandata'][vlan]['hosts'] -%}
@@ -22,6 +22,12 @@
 {{ obj.update({'desc': myvars['vlandata'][vlan].desc }) }}
 {% else %}
 {{ obj.update({'desc': 'vlan {{ vlan }}' }) }}
+{% endif -%}
+
+{% if myvars['vlandata'][vlan].state is defined and myvars['vlandata'][vlan].state -%}
+{{ obj.update({'state': myvars['vlandata'][vlan].state }) }}
+{% else %}
+{{ obj.update({'state': 'merged' }) }}
 {% endif -%}
 
 {% if myvars['vlandata'][vlan].net is defined and myvars['vlandata'][vlan].net -%}
@@ -58,7 +64,7 @@
 {% endfor -%}
 {% endif -%}
 
-
+ 
 sonic_vlans:
 {% for vlanitem in vlanarray %}
   - vlan_id: {{ vlanitem }}
@@ -74,10 +80,18 @@ sonic_l2_interfaces:
 {% for vlanl2obj in l2interfacearray %}
 {% set myvlan = vlanl2obj['vlan'] %}
 {% for vlanl2int in vlanl2obj['ports'] %}
-  - name: {{ vlanl2int }}
-    trunk:
-      allowed_vlans:
-        - vlan: {{ myvlan }}
+  - config:
+      - name: {{ vlanl2int }}
+        trunk:
+          allowed_vlans:
+            - vlan: {{ myvlan }}
+{% for vlanvrfitem in vrfarray %}
+{% set vlan = vlanvrfitem['vlan'] %}
+{% set state = vlanvrfitem['state'] %}
+{% if vlan == 'Vlan'+myvlan|string %}
+    state: {{ state  }}
+{% endif %}
+{% endfor %}
 {% endfor %}
 {% endfor %}
 

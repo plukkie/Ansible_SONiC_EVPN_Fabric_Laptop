@@ -37,7 +37,8 @@
 
     - name: Create L2 Interfaces with vlans
       sonic_l2_interfaces:
-        config: '{{vlan_data.sonic_l2_interfaces}}'
+        '{{item}}'
+      loop: '{{vlan_data.sonic_l2_interfaces}}'
       when: sonic_l2_interfaces is defined and sonic_l2_interfaces
 
     - name: Connect L3 interfaces into VRFs
