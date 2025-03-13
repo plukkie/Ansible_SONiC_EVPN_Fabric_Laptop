@@ -10,7 +10,7 @@ vlandata:
     hosts: [ sonic-LEAF-1, sonic-LEAF-2, sonic-LEAF-3, sonic-LEAF-4 ]
     vrf: Vrf1
     int_vlan_options: [ neigh-suppress ]
-    state: merged 
+    state: deleted 
 
   502:
     desc: "fabric wide vlan502"
