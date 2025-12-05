@@ -26,6 +26,8 @@
     - name: Fetch Git {{ jenkinsgit }}
       delegate_to: localhost
       run_once: true
+      environment:
+        GIT_SSL_NO_VERIFY: "true"
       git:
         repo: "{{ jenkinsgit }}"
         dest: "{{ jenkinsdir }}"
